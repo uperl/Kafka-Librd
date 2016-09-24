@@ -32,3 +32,11 @@ WriteMakefile(
         ],
     },
 );
+
+sub MY::postamble {
+    return <<CONST;
+const_xs.inc : utils/generate_const.pl
+\t$^X utils/generate_const.pl
+
+CONST
+}
