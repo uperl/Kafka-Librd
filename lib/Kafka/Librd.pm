@@ -2,11 +2,15 @@ package Kafka::Librd;
 use strict;
 use warnings;
 our $VERSION = "0.01";
+my $XS_VERSION = $VERSION;
 $VERSION = eval $VERSION;
+
+require XSLoader;
+XSLoader::load('Kafka::Librd', $XS_VERSION);
 
 =head1 NAME
 
-Kafka::Librd - Perl extension ...
+Kafka::Librd - bindings for librdkafka
 
 =head1 VERSION
 
