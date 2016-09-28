@@ -53,3 +53,22 @@ krd_DESTROY(rdk)
             rd_kafka_destroy(rdk->rk);
             Safefree(rdk);
         }
+
+MODULE = Kafka::Librd    PACKAGE = Kafka::Librd::Message    PREFIX = krdm_
+PROTOTYPES: DISABLE
+
+SV*
+krdm_payload(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        RETVAL = newSVpvn(msg->payload, msg->len);
+    OUTPUT:
+        RETVAL
+
+SV*
+krdm_key(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        RETVAL = newSVpvn(msg->key, msg->key_len);
+    OUTPUT:
+        RETVAL
