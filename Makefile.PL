@@ -9,6 +9,8 @@ WriteMakefile(
     LICENSE             => 'perl',
     VERSION_FROM        => 'lib/Kafka/Librd.pm',
     ABSTRACT_FROM       => 'lib/Kafka/Librd.pm',
+    OBJECT              => 'Rdkafka.o rdkafkaxs.o',
+    LIBS                => '-lrdkafka',
     PL_FILES            => {},
     PREREQ_PM => {
     },
@@ -20,6 +22,7 @@ WriteMakefile(
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Kafka-Librd-*' },
+    depend              => { 'Rdkafka.c' => 'const_xs.inc' },
     META_MERGE => {
         resources => {
             homepage   => 'https://github.com/trinitum/perl-Kafka-Librd',

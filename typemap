@@ -1,0 +1,16 @@
+TYPEMAP
+rdkafka_t* T_RDKAFKA
+
+INPUT
+T_RDKAFKA
+        if(sv_derived_from($arg, \"Kafka::Librd\")) {
+                IV tmp = SvIV((SV*)SvRV($arg));
+                $var = INT2PTR($type, tmp);
+        }
+        else {
+                croak(\"$var is not of type Kafka::Librd\");
+        }
+
+OUTPUT
+T_RDKAFKA
+        sv_setref_pv($arg, \"Kafka::Librd\", (void *)$var);

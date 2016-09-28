@@ -6,16 +6,6 @@
 #include "ppport.h"
 #include "rdkafkaxs.h"
 
-typedef struct rdkafka_s {
-    rdkafka* rk;
-    CV dr_msg_cb;
-    CV consume_cb;
-    CV rebalance_cb;
-    CV error_cb;
-    CV log_cb;
-    IV thx;
-} rdkafka_t;
-
 MODULE = Kafka::Librd    PACKAGE = Kafka::Librd    PREFIX = krd_
 PROTOTYPES: DISABLE
 
@@ -24,14 +14,14 @@ INCLUDE: const_xs.inc
 int
 krd_rd_kafka_version()
     CODE:
-        RETVAL = rd_kafka_version(void);
+        RETVAL = rd_kafka_version();
     OUTPUT:
         RETVAL
 
-char*
+const char*
 krd_rd_kafka_version_str()
     CODE:
-        RETVAL = rd_kafka_version_str(void);
+        RETVAL = rd_kafka_version_str();
     OUTPUT:
         RETVAL
 
