@@ -14,3 +14,8 @@ pod2htm*.tmp
 MYMETA.*
 nytprof*
 Kafka-Librd-*
+*.bs
+Rdkafka.c
+Rdkafka.o
+const_xs.inc
+*.o
