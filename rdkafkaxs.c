@@ -75,7 +75,7 @@ void krd_call_log_cb(
     strncpy(errstr, #name " must be a code reference", 1024);\
     goto CROAK;\
 }\
-krd->name = SvRV(val);\
+krd->name = val;\
 rd_kafka_conf_set_ ## name(krdconf, krd_call_ ## name);
 
 rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
