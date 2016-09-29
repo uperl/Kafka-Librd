@@ -1,5 +1,7 @@
 #include "rdkafkaxs.h"
 
+#define ERRSTR_SIZE 1024
+
 SV* krd_to_obj(void* krd) {
         return sv_setref_pv(newSV(0), "Kafka::Librd", krd);
 }
@@ -72,14 +74,14 @@ void krd_call_log_cb(
 }
 
 #define ADDCALLBACK(name) if (!SvROK(val) || strncmp(sv_reftype(SvRV(val), 0), "CODE", 5) != 0) {\
-    strncpy(errstr, #name " must be a code reference", 1024);\
+    strncpy(errstr, #name " must be a code reference", ERRSTR_SIZE);\
     goto CROAK;\
 }\
 krd->name = val;\
 rd_kafka_conf_set_ ## name(krdconf, krd_call_ ## name);
 
 rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
-    char errstr[1024];
+    char errstr[ERRSTR_SIZE];
     rd_kafka_conf_t* krdconf;
     rd_kafka_conf_res_t res;
     HE *he;
@@ -101,6 +103,14 @@ rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
             ADDCALLBACK(error_cb);
         } else if (strncmp(key, "log_cb", len) == 0) {
             ADDCALLBACK(log_cb);
+        } else if (strncmp(key, "default_topic_config", len) == 0) {
+            if (!SvROK(val) || strncmp(sv_reftype(SvRV(val), 0), "HASH", 5) != 0) {
+                strncpy(errstr, "default_topic_config must be a hash reference", ERRSTR_SIZE);
+                goto CROAK;
+            }
+            rd_kafka_topic_conf_t* topconf = krd_parse_topic_config((HV*)SvRV(val), errstr);
+            if (topconf == NULL) goto CROAK;
+            rd_kafka_conf_set_default_topic_conf(krdconf, topconf);
         } else {
             // set named configuration property
             char *strval = SvPV(val, len);
@@ -109,7 +119,7 @@ rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
                     key,
                     strval,
                     errstr,
-                    1024);
+                    ERRSTR_SIZE);
             if (res != RD_KAFKA_CONF_OK)
                 goto CROAK;
         }
@@ -120,5 +130,33 @@ rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
 CROAK:
     rd_kafka_conf_destroy(krdconf);
     croak(errstr);
+    return NULL;
+}
+
+rd_kafka_topic_conf_t* krd_parse_topic_config(HV *params, char* errstr) {
+    rd_kafka_topic_conf_t* topconf = rd_kafka_topic_conf_new();
+    rd_kafka_conf_res_t res;
+    HE *he;
+
+    hv_iterinit(params);
+    while (he = hv_iternext(params)) {
+        STRLEN len;
+        char* key = HePV(he, len);
+        SV* val = HeVAL(he);
+        char *strval = SvPV(val, len);
+        res = rd_kafka_topic_conf_set(
+                topconf,
+                key,
+                strval,
+                errstr,
+                ERRSTR_SIZE);
+        if (res != RD_KAFKA_CONF_OK)
+            goto ERROR;
+    }
+
+    return topconf;
+
+ERROR:
+    rd_kafka_topic_conf_destroy(topconf);
     return NULL;
 }

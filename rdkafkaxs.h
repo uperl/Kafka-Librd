@@ -13,3 +13,4 @@ typedef struct rdkafka_s {
 } rdkafka_t;
 
 rd_kafka_conf_t* krd_parse_config(rdkafka_t* krd, HV* params);
+rd_kafka_topic_conf_t* krd_parse_topic_config(HV *params, char* errstr);
