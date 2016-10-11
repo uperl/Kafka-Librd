@@ -8,6 +8,9 @@ $VERSION = eval $VERSION;
 require XSLoader;
 XSLoader::load('Kafka::Librd', $XS_VERSION);
 
+use Exporter::Lite;
+our @EXPORT_OK;
+
 =head1 NAME
 
 Kafka::Librd - bindings for librdkafka
@@ -25,6 +28,15 @@ This document describes Kafka::Librd version 0.01
 =head1 METHODS
 
 =cut
+
+{
+    my $errors = Kafka::Librd::Error::rd_kafka_get_err_descs();
+    no strict 'refs';
+    for ( keys %$errors ) {
+        *{__PACKAGE__ . "::RD_KAFKA_RESP_ERR_$_"} = eval "sub { $errors->{$_} }";
+        push @EXPORT_OK, "RD_KAFKA_RESP_ERR_$_";
+    }
+}
 
 1;
 

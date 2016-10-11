@@ -145,3 +145,23 @@ krdm_DESTROY(msg)
         rd_kafka_message_t* msg
     CODE:
         rd_kafka_message_destroy(msg);
+
+MODULE = Kafka::Librd    PACKAGE = Kafka::Librd::Error    PREFIX = krde_
+PROTOTYPES: DISABLE
+
+HV*
+krde_rd_kafka_get_err_descs()
+    PREINIT:
+        const struct rd_kafka_err_desc* descs;
+        size_t cnt;
+        int i;
+    CODE:
+        rd_kafka_get_err_descs(&descs, &cnt);
+        RETVAL = newHV();
+        for (i = 0; i < cnt; i++) {
+            if (descs[i].name != NULL) {
+                hv_store(RETVAL, descs[i].name, strnlen(descs[i].name, 1024), newSViv(descs[i].code), 0);
+            }
+        }
+    OUTPUT:
+        RETVAL
