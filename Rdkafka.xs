@@ -54,6 +54,14 @@ krd_DESTROY(rdk)
             Safefree(rdk);
         }
 
+int
+krd_rd_kafka_wait_destroyed(timeout_ms)
+        int timeout_ms
+    CODE:
+        RETVAL = rd_kafka_wait_destroyed(timeout_ms);
+    OUTPUT:
+        RETVAL
+
 MODULE = Kafka::Librd    PACKAGE = Kafka::Librd::Message    PREFIX = krdm_
 PROTOTYPES: DISABLE
 
