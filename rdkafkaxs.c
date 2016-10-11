@@ -62,7 +62,21 @@ void krd_call_error_cb(
         int err,
         const char *reason,
         void* opaque) {
-    // TODO
+    dSP;
+    ENTER;
+    SAVETMPS;
+    PUSHMARK(SP);
+    EXTEND(SP,3);
+    PUSHs(sv_2mortal(krd_to_obj(opaque)));
+    PUSHs(sv_2mortal(newSViv(err)));
+    PUSHs(sv_2mortal(newSVpv(reason, 0)));
+    PUTBACK;
+
+    rdkafka_t* krd = (rdkafka_t*) opaque;
+    call_sv(krd->consume_cb, G_VOID);
+
+    FREETMPS;
+    LEAVE;
 }
 
 void krd_call_log_cb(
