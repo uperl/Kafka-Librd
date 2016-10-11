@@ -70,7 +70,22 @@ void krd_call_log_cb(
         int level,
         const char *fac,
         const char *buf) {
-    // TODO
+    rdkafka_t* krd = (rdkafka_t *) rd_kafka_opaque(rk);
+    dSP;
+    ENTER;
+    SAVETMPS;
+    PUSHMARK(SP);
+    EXTEND(SP,4);
+    PUSHs(sv_2mortal(krd_to_obj((void*)krd)));
+    PUSHs(sv_2mortal(newSViv(level)));
+    PUSHs(sv_2mortal(newSVpv(fac, 0)));
+    PUSHs(sv_2mortal(newSVpv(buf, 0)));
+    PUTBACK;
+
+    call_sv(krd->log_cb, G_VOID);
+
+    FREETMPS;
+    LEAVE;
 }
 
 #define ADDCALLBACK(name) if (!SvROK(val) || strncmp(sv_reftype(SvRV(val), 0), "CODE", 5) != 0) {\
