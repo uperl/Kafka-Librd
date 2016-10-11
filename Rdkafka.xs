@@ -45,6 +45,65 @@ krd__new(type, params)
     OUTPUT:
         RETVAL
 
+int
+krd_brokers_add(rdk, brokerlist)
+        rdkafka_t* rdk
+        char* brokerlist
+    CODE:
+        RETVAL = rd_kafka_brokers_add(rdk->rk, brokerlist);
+    OUTPUT:
+        RETVAL
+
+int
+krd_subscribe(rdk, topics)
+        rdkafka_t* rdk
+        AV* topics
+    PREINIT:
+        STRLEN strl;
+        int i, len;
+        rd_kafka_topic_partition_list_t* topic_list;
+        char* topic;
+        SV** topic_sv;
+    CODE:
+        len = av_len(topics) + 1;
+        topic_list = rd_kafka_topic_partition_list_new(len);
+        for (i=0; i < len; i++) {
+            topic_sv = av_fetch(topics, i, 0);
+            if (topic_sv != NULL) {
+                topic = SvPV(*topic_sv, strl);
+                rd_kafka_topic_partition_list_add(topic_list, topic, -1);
+            }
+        }
+        RETVAL = rd_kafka_subscribe(rdk->rk, topic_list);
+        rd_kafka_topic_partition_list_destroy(topic_list);
+    OUTPUT:
+        RETVAL
+
+int
+krd_unsubscribe(rdk)
+        rdkafka_t* rdk
+    CODE:
+        RETVAL = rd_kafka_unsubscribe(rdk->rk);
+    OUTPUT:
+        RETVAL
+
+rd_kafka_message_t*
+krd_consumer_poll(rdk, timeout_ms)
+        rdkafka_t* rdk
+        int timeout_ms
+    CODE:
+        RETVAL = rd_kafka_consumer_poll(rdk->rk, timeout_ms);
+    OUTPUT:
+        RETVAL
+
+int
+krd_consumer_close(rdk)
+        rdkafka_t* rdk
+    CODE:
+        RETVAL = rd_kafka_consumer_close(rdk->rk);
+    OUTPUT:
+        RETVAL
+
 void
 krd_DESTROY(rdk)
         rdkafka_t* rdk
