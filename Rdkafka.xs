@@ -72,3 +72,9 @@ krdm_key(msg)
         RETVAL = newSVpvn(msg->key, msg->key_len);
     OUTPUT:
         RETVAL
+
+void
+krdm_DESTROY(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        rd_kafka_message_destroy(msg);
