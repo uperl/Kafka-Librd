@@ -123,6 +123,30 @@ krd_rd_kafka_wait_destroyed(timeout_ms)
 MODULE = Kafka::Librd    PACKAGE = Kafka::Librd::Message    PREFIX = krdm_
 PROTOTYPES: DISABLE
 
+int
+krdm_err(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        RETVAL = msg->err;
+    OUTPUT:
+        RETVAL
+
+int
+krdm_partition(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        RETVAL = msg->partition;
+    OUTPUT:
+        RETVAL
+
+const char*
+krdm_topic(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        RETVAL = rd_kafka_topic_name(msg->rkt);
+    OUTPUT:
+        RETVAL
+
 SV*
 krdm_payload(msg)
         rd_kafka_message_t* msg
@@ -135,7 +159,20 @@ SV*
 krdm_key(msg)
         rd_kafka_message_t* msg
     CODE:
-        RETVAL = newSVpvn(msg->key, msg->key_len);
+        if (msg->err == 0) {
+            RETVAL = newSVpvn(msg->key, msg->key_len);
+        } else {
+            RETVAL = &PL_sv_undef;
+        }
+    OUTPUT:
+        RETVAL
+
+long
+krdm_offset(msg)
+        rd_kafka_message_t* msg
+    CODE:
+        /* that will truncate offset if perl doesn't support 64bit ints */
+        RETVAL = msg->offset;
     OUTPUT:
         RETVAL
 
