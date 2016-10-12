@@ -4,11 +4,6 @@
 
 typedef struct rdkafka_s {
     rd_kafka_t* rk;
-    SV* dr_msg_cb;
-    SV* consume_cb;
-    SV* rebalance_cb;
-    SV* error_cb;
-    SV* log_cb;
     IV thx;
 } rdkafka_t;
 

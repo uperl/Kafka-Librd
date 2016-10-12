@@ -109,7 +109,6 @@ krd_DESTROY(rdk)
         rdkafka_t* rdk
     CODE:
         if (rdk->thx == (IV)PERL_GET_THX) {
-            rd_kafka_destroy(rdk->rk);
             Safefree(rdk);
         }
 
