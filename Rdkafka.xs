@@ -165,3 +165,19 @@ krde_rd_kafka_get_err_descs()
         }
     OUTPUT:
         RETVAL
+
+const char*
+krde_to_string(code)
+        int code
+    CODE:
+        RETVAL = rd_kafka_err2str(code);
+    OUTPUT:
+        RETVAL
+
+const char*
+krde_to_name(code)
+        int code
+    CODE:
+        RETVAL = rd_kafka_err2name(code);
+    OUTPUT:
+        RETVAL
