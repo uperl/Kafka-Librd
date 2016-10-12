@@ -29,6 +29,11 @@ This document describes Kafka::Librd version 0.01
 
 =cut
 
+sub new {
+    my ( $class, $type, $params ) = @_;
+    return _new( $type, $params );
+}
+
 {
     my $errors = Kafka::Librd::Error::rd_kafka_get_err_descs();
     no strict 'refs';
