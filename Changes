@@ -1,3 +1,6 @@
+0.02 Fri Oct 14 2016 Pavel Shaydo <zwon@cpan.org>
+    - Use Alien::Librdkafka to build librdkafka
+
 0.01 Thu Oct 13 2016 Pavel Shaydo <zwon@cpan.org>
     - First version, released on an unsuspecting world.
 
