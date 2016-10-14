@@ -2,6 +2,7 @@ use 5.008;
 use strict;
 use warnings;
 use ExtUtils::MakeMaker 6.64;
+use Alien::Librdkafka 0.9.1;
 
 WriteMakefile(
     NAME                => 'Kafka::Librd',
@@ -10,14 +11,18 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Kafka/Librd.pm',
     ABSTRACT_FROM       => 'lib/Kafka/Librd.pm',
     OBJECT              => 'Rdkafka.o rdkafkaxs.o',
-    LIBS                => '-lrdkafka',
+    CCFLAGS             => Alien::Librdkafka->cflags,
+    LIBS                => Alien::Librdkafka->libs,
     PL_FILES            => {},
     PREREQ_PM => {
+        'Alien::Librdkafka' => '0.9.1',
+        'Exporter::Lite' => 0,
     },
     TEST_REQUIRES => {
         'Test::More' => 0.94,
     },
     CONFIGURE_REQUIRES => {
+        'Alien::Librdkafka' => '0.9.1',
         'ExtUtils::MakeMaker' => 6.64,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
