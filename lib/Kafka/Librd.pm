@@ -136,11 +136,11 @@ support 64 bit integers.
 
 =head2 key
 
-message key
+return message key
 
 =head2 payload
 
-message payload
+return message payload
 
 =cut
 
