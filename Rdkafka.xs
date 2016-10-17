@@ -104,6 +104,40 @@ krd_consumer_close(rdk)
     OUTPUT:
         RETVAL
 
+rd_kafka_topic_t*
+krd_topic(rdk, topic, params)
+        rdkafka_t* rdk
+        char *topic
+        HV* params
+    PREINIT:
+        rd_kafka_topic_conf_t* tcon;
+        char errstr[1024];
+    CODE:
+        tcon = krd_parse_topic_config(params, errstr);
+        if (tcon == NULL)
+            croak("Couldn't parse topic config: %s", errstr);
+        RETVAL = rd_kafka_topic_new(rdk->rk, topic, tcon);
+        tcon = NULL;
+    OUTPUT:
+        RETVAL
+
+int
+krd_poll(rdk, timeout_ms)
+        rdkafka_t* rdk
+        int timeout_ms
+    CODE:
+        RETVAL = rd_kafka_poll(rdk->rk, timeout_ms);
+    OUTPUT:
+        RETVAL
+
+int
+krd_outq_len(rdk)
+        rdkafka_t* rdk
+    CODE:
+        RETVAL = rd_kafka_outq_len(rdk->rk);
+    OUTPUT:
+        RETVAL
+
 void
 krd_DESTROY(rdk)
         rdkafka_t* rdk
@@ -119,6 +153,37 @@ krd_rd_kafka_wait_destroyed(timeout_ms)
         RETVAL = rd_kafka_wait_destroyed(timeout_ms);
     OUTPUT:
         RETVAL
+
+MODULE = Kafka::Librd    PACKAGE = Kafka::Librd::Topic    PREFIX = krdt_
+PROTOTYPES: DISABLE
+
+int
+krdt_produce(rkt, partition, msgflags, payload, key)
+        rd_kafka_topic_t* rkt
+        int partition
+        int msgflags
+        SV* payload
+        SV* key
+    PREINIT:
+        STRLEN plen, klen;
+        char *plptr, *keyptr;
+    CODE:
+        plptr = SvPVbyte(payload, plen);
+        if (SvOK(key)) {
+            keyptr = SvPVbyte(key, klen);
+        } else {
+            keyptr = NULL;
+            klen = 0;
+        }
+        RETVAL = rd_kafka_produce(rkt, partition, RD_KAFKA_MSG_F_COPY | msgflags, plptr, plen, keyptr, klen, NULL);
+    OUTPUT:
+        RETVAL
+
+void
+krdt_DESTORY(rkt)
+        rd_kafka_topic_t* rkt
+    CODE:
+        rd_kafka_topic_destroy(rkt);
 
 MODULE = Kafka::Librd    PACKAGE = Kafka::Librd::Message    PREFIX = krdm_
 PROTOTYPES: DISABLE

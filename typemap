@@ -1,6 +1,7 @@
 TYPEMAP
 rdkafka_t* T_RDKAFKA
 rd_kafka_message_t* T_RD_KAFKA_MSG
+rd_kafka_topic_t* T_RD_KAFKA_TOPIC
 
 INPUT
 T_RDKAFKA
@@ -19,9 +20,19 @@ T_RD_KAFKA_MSG
         else {
                 croak(\"$var is not of type Kafka::Librd::Message\");
         }
+T_RD_KAFKA_TOPIC
+        if(sv_derived_from($arg, \"Kafka::Librd::Topic\")) {
+                IV tmp = SvIV((SV*)SvRV($arg));
+                $var = INT2PTR($type, tmp);
+        }
+        else {
+                croak(\"$var is not of type Kafka::Librd::Topic\");
+        }
 
 OUTPUT
 T_RDKAFKA
         sv_setref_pv($arg, \"Kafka::Librd\", (void *)$var);
 T_RD_KAFKA_MSG
         sv_setref_pv($arg, \"Kafka::Librd::Message\", (void *)$var);
+T_RD_KAFKA_TOPIC
+        sv_setref_pv($arg, \"Kafka::Librd::Topic\", (void *)$var);
