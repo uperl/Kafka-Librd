@@ -1,3 +1,6 @@
+0.04 Sat Oct 22 2016 Pavel Shaydo <zwon@cpan.org>
+    - add destroy and dump methods
+
 0.03 Mon Oct 17 2016 Pavel Shaydo <zwon@cpan.org>
     - implement producer
 
