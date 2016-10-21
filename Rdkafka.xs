@@ -146,6 +146,18 @@ krd_DESTROY(rdk)
             Safefree(rdk);
         }
 
+void
+krd_destroy(rdk)
+        rdkafka_t* rdk
+    CODE:
+        rd_kafka_destroy(rdk->rk);
+
+void
+krd_dump(rdk)
+        rdkafka_t* rdk
+    CODE:
+        rd_kafka_dump(stdout, rdk->rk);
+
 int
 krd_rd_kafka_wait_destroyed(timeout_ms)
         int timeout_ms
