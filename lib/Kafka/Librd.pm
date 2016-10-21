@@ -103,7 +103,7 @@ unsubscribe from the current subsctiption set
     $msg = $kafka->consumer_poll($timeout_ms)
 
 poll for messages or events. If any message or event received, returns
-L<Kafka::Librd::Message> object. If C<$msg->err> for returned object is zero
+L</Kafka::Librd::Message> object. If C<$msg->err> for returned object is zero
 (RD_KAFKA_RESP_ERR_NO_ERROR), then it is a proper message, otherwise it is an
 event or an error.
 
@@ -113,9 +113,50 @@ event or an error.
 
 close down the consumer
 
+=head2 topic
+
+    $topic = $kafka->topic($name, \%config)
+
+return a L</Kafka::Librd::Topic>topic object, that can be used to produce
+messages
+
+=head2 outq_len
+
+    $len = $kafka->outq_len
+
+return the current out queue length.
+
+=head2 destroy
+
+    $kafka->destroy
+
+destroy kafka handle
+
+=head2 dump
+
+    $kafka->dump
+
+dump internal state of kafka handle to stdout, only useful for debugging
+
+=head1 Kafka::Librd::Topic
+
+This class maps to C<rd_kafka_topic_t> structure from librdkafka and represents
+topic. It should be created with L</topic> method of Kafka::Librd object. It
+provides the following method:
+
+=head2 produce
+
+    $err = $topic->produce($partition, $msgflags, $payload, $key)
+
+produce a message for the topic. I<$msgflags> can be RD_KAFKA_MSG_F_BLOCK in
+the future, but currently it should be set to 0, RD_KAFKA_MSG_F_COPY and
+RD_KAFKA_MSG_F_FREE must not be used, internally RD_KAFKA_MSG_F_COPY is always
+set.
+
 =head1 Kafka::Librd::Message
 
-This class maps to C<rd_kafka_message_t> structure from librdkafka and represents message or event. Objects of this class have the following methods:
+This class maps to C<rd_kafka_message_t> structure from librdkafka and
+represents message or event. Objects of this class have the following methods:
 
 =head2 err
 
@@ -150,9 +191,7 @@ __END__
 
 =head1 CAVEATS
 
-Module is in early stage of development.
-
-Currently only bindings for high level consumer API are implemented.
+Module is in early stage of development, only basic functionality is implemented.
 
 Message offset is truncated to 32 bit if perl compiled without support for 64 bit integers.
 
