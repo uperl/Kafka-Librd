@@ -1,4 +1,6 @@
-use Test::Most;
+use strict;
+use warnings;
+use Test::More;
 use Kafka::Librd qw(RD_KAFKA_RESP_ERR_NO_ERROR RD_KAFKA_RESP_ERR_REQUEST_TIMED_OUT);
 
 is RD_KAFKA_RESP_ERR_NO_ERROR, 0, "NO ERROR code is 0";
