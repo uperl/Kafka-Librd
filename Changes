@@ -1,3 +1,9 @@
+0.05 Tue Nov 29 2016 Pavel Shaydo <zwon@trinitum.org>
+    - minor doc fix
+    - remove unnecessary Test::Most dependency. Fixes #2, thanks to
+    @andk for the report.
+
+
 0.04 Sat Oct 22 2016 Pavel Shaydo <zwon@cpan.org>
     - add destroy and dump methods
 
