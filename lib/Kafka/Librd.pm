@@ -103,7 +103,7 @@ unsubscribe from the current subsctiption set
     $msg = $kafka->consumer_poll($timeout_ms)
 
 poll for messages or events. If any message or event received, returns
-L</Kafka::Librd::Message> object. If C<$msg->err> for returned object is zero
+L</Kafka::Librd::Message> object. If C<<$msg->err>> for returned object is zero
 (RD_KAFKA_RESP_ERR_NO_ERROR), then it is a proper message, otherwise it is an
 event or an error.
 
