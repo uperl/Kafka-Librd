@@ -1,6 +1,7 @@
 use 5.008;
 use strict;
 use warnings;
+use Config;
 use ExtUtils::MakeMaker 6.64;
 use Alien::Librdkafka 0.9.1;
 
@@ -11,7 +12,7 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Kafka/Librd.pm',
     ABSTRACT_FROM       => 'lib/Kafka/Librd.pm',
     OBJECT              => 'Rdkafka.o rdkafkaxs.o',
-    CCFLAGS             => Alien::Librdkafka->cflags,
+    CCFLAGS             => Alien::Librdkafka->cflags . " " . $Config{ccflags},
     LIBS                => Alien::Librdkafka->libs,
     PL_FILES            => {},
     PREREQ_PM => {
