@@ -2,7 +2,7 @@
 
 #define ERRSTR_SIZE 1024
 
-rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
+rd_kafka_conf_t* krd_parse_config(pTHX_ rdkafka_t *krd, HV* params) {
     char errstr[ERRSTR_SIZE];
     rd_kafka_conf_t* krdconf;
     rd_kafka_conf_res_t res;
@@ -20,7 +20,7 @@ rd_kafka_conf_t* krd_parse_config(rdkafka_t *krd, HV* params) {
                 strncpy(errstr, "default_topic_config must be a hash reference", ERRSTR_SIZE);
                 goto CROAK;
             }
-            rd_kafka_topic_conf_t* topconf = krd_parse_topic_config((HV*)SvRV(val), errstr);
+            rd_kafka_topic_conf_t* topconf = krd_parse_topic_config(aTHX_ (HV*)SvRV(val), errstr);
             if (topconf == NULL) goto CROAK;
             rd_kafka_conf_set_default_topic_conf(krdconf, topconf);
         } else {
@@ -45,7 +45,7 @@ CROAK:
     return NULL;
 }
 
-rd_kafka_topic_conf_t* krd_parse_topic_config(HV *params, char* errstr) {
+rd_kafka_topic_conf_t* krd_parse_topic_config(pTHX_ HV *params, char* errstr) {
     rd_kafka_topic_conf_t* topconf = rd_kafka_topic_conf_new();
     rd_kafka_conf_res_t res;
     HE *he;

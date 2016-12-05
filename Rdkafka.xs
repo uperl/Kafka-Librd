@@ -1,4 +1,5 @@
 /* vim: set expandtab sts=4: */
+#define PERL_NO_GET_CONTEXT
 #include <EXTERN.h>
 #include <perl.h>
 #include <XSUB.h>
@@ -35,7 +36,7 @@ krd__new(type, params)
         char errstr[1024];
     CODE:
         Newx(RETVAL, 1, rdkafka_t);
-        conf = krd_parse_config(RETVAL, params);
+        conf = krd_parse_config(aTHX_ RETVAL, params);
         rk = rd_kafka_new(type, conf, errstr, 1024);
         if (rk == NULL) {
             croak(errstr);
@@ -113,7 +114,7 @@ krd_topic(rdk, topic, params)
         rd_kafka_topic_conf_t* tcon;
         char errstr[1024];
     CODE:
-        tcon = krd_parse_topic_config(params, errstr);
+        tcon = krd_parse_topic_config(aTHX_ params, errstr);
         if (tcon == NULL)
             croak("Couldn't parse topic config: %s", errstr);
         RETVAL = rd_kafka_topic_new(rdk->rk, topic, tcon);
