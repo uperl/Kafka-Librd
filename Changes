@@ -1,8 +1,11 @@
-0.05 Tue Nov 29 2016 Pavel Shaydo <zwon@trinitum.org>
+0.06 Tue Dec  6 2016 Pavel Shaydo <zwon@cpan.org>
+    - make it compile on threaded perls. See #3,
+      thanks to @aero for the report
+
+0.05 Tue Nov 29 2016 Pavel Shaydo <zwon@cpan.org>
     - minor doc fix
     - remove unnecessary Test::Most dependency. Fixes #2, thanks to
     @andk for the report.
-
 
 0.04 Sat Oct 22 2016 Pavel Shaydo <zwon@cpan.org>
     - add destroy and dump methods
