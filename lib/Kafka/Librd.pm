@@ -1,7 +1,7 @@
 package Kafka::Librd;
 use strict;
 use warnings;
-our $VERSION = "0.06";
+our $VERSION = "0.07";
 my $XS_VERSION = $VERSION;
 $VERSION = eval $VERSION;
 
@@ -17,7 +17,7 @@ Kafka::Librd - bindings for librdkafka
 
 =head1 VERSION
 
-This document describes Kafka::Librd version 0.06
+This document describes Kafka::Librd version 0.07
 
 =head1 SYNOPSIS
 
@@ -210,7 +210,7 @@ Pavel Shaydo C<< <zwon at cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (C) 2016 Pavel Shaydo
+Copyright (C) 2016, 2017 Pavel Shaydo
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
