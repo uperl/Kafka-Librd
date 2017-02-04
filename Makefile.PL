@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use Config;
 use ExtUtils::MakeMaker 6.64;
-use Alien::Librdkafka 0.9.1;
+use Alien::Librdkafka 0.9.3;
 
 WriteMakefile(
     NAME                => 'Kafka::Librd',
@@ -16,14 +16,14 @@ WriteMakefile(
     LIBS                => Alien::Librdkafka->libs,
     PL_FILES            => {},
     PREREQ_PM => {
-        'Alien::Librdkafka' => '0.9.1',
+        'Alien::Librdkafka' => '0.9.3',
         'Exporter::Lite' => 0,
     },
     TEST_REQUIRES => {
         'Test::More' => 0.94,
     },
     CONFIGURE_REQUIRES => {
-        'Alien::Librdkafka' => '0.9.1',
+        'Alien::Librdkafka' => '0.9.3',
         'ExtUtils::MakeMaker' => 6.64,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
