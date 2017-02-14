@@ -39,7 +39,7 @@ krd__new(type, params)
         conf = krd_parse_config(aTHX_ RETVAL, params);
         rk = rd_kafka_new(type, conf, errstr, 1024);
         if (rk == NULL) {
-            croak(errstr);
+            croak("%s", errstr);
         }
         RETVAL->rk = rk;
         RETVAL->thx = (IV)PERL_GET_THX;

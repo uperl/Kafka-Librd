@@ -90,7 +90,7 @@ rd_kafka_conf_t* krd_parse_config(pTHX_ rdkafka_t *krd, HV* params) {
     krdconf = rd_kafka_conf_new();
     rd_kafka_conf_set_opaque(krdconf, (void *)krd);
     hv_iterinit(params);
-    while (he = hv_iternext(params)) {
+    while ((he = hv_iternext(params)) != NULL) {
         STRLEN len;
         char* key = HePV(he, len);
         SV* val = HeVAL(he);
@@ -120,7 +120,7 @@ rd_kafka_conf_t* krd_parse_config(pTHX_ rdkafka_t *krd, HV* params) {
 
 CROAK:
     rd_kafka_conf_destroy(krdconf);
-    croak(errstr);
+    croak("%s", errstr);
     return NULL;
 }
 
@@ -130,7 +130,7 @@ rd_kafka_topic_conf_t* krd_parse_topic_config(pTHX_ HV *params, char* errstr) {
     HE *he;
 
     hv_iterinit(params);
-    while (he = hv_iternext(params)) {
+    while ((he = hv_iternext(params)) != NULL) {
         STRLEN len;
         char* key = HePV(he, len);
         SV* val = HeVAL(he);
