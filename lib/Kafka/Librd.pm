@@ -98,6 +98,13 @@ subscribe to the list of topics using balanced consumer groups.
 
 unsubscribe from the current subsctiption set
 
+=head2 subscription
+
+    @tplist = $kafka->subscription
+
+return current subscription. Subscription returned as an array of hashes with
+the following fields: topic, partition, offset, metadata.
+
 =head2 consumer_poll
 
     $msg = $kafka->consumer_poll($timeout_ms)

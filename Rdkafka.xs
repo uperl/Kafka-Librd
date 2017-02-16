@@ -88,6 +88,24 @@ krd_unsubscribe(rdk)
     OUTPUT:
         RETVAL
 
+SV*
+krd_subscription(rdk)
+        rdkafka_t* rdk
+    PREINIT:
+        rd_kafka_topic_partition_list_t* tpar;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        err = rd_kafka_subscription(rdk->rk, &tpar);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            croak("Error retrieving subscriptions: %s", rd_kafka_err2str(err))
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
+    OUTPUT:
+        RETVAL
+
 int
 krd_commit(rdk, tplistsv = NULL, async = 0)
         rdkafka_t* rdk
