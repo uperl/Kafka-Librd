@@ -107,6 +107,16 @@ L</Kafka::Librd::Message> object. If C<<$msg->err>> for returned object is zero
 (RD_KAFKA_RESP_ERR_NO_ERROR), then it is a proper message, otherwise it is an
 event or an error.
 
+=head2 commit
+
+    $err = $kafka->commit(\@topic_partition_list, $async)
+
+commit offsets to the broker. C<@topic_partition_list> is an array of hashes
+with the following keys: topic, partition, offset, metadata. If
+@topic_partition_list is missing or undef, then current partition assignment
+is used instead. If C<$async> is 1, then method returns immediately, if it is
+0 or missing then method blocks until offsets are commited.
+
 =head2 consumer_close
 
     $err = $kafka->consumer_close
