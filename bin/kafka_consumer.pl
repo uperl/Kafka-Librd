@@ -119,6 +119,8 @@ while (1) {
         say "Key: ",     $msg->key if defined $msg->key;
         say "Payload: ", $msg->payload;
     }
+    # commit offsets to broker
+    $kafka->commit;
     last if $stop;
 }
 
