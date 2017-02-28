@@ -98,7 +98,7 @@ krd_subscription(rdk)
     CODE:
         err = rd_kafka_subscription(rdk->rk, &tpar);
         if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
-            croak("Error retrieving subscriptions: %s", rd_kafka_err2str(err))
+            croak("Error retrieving subscriptions: %s", rd_kafka_err2str(err));
         }
         tp = krd_expand_topic_partition_list(aTHX_ tpar);
         rd_kafka_topic_partition_list_destroy(tpar);

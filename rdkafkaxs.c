@@ -9,7 +9,8 @@ krd_parse_topic_partition_list(pTHX_ AV* tplist) {
 
     int tplen = av_len(tplist)+1;
     tpar = rd_kafka_topic_partition_list_new(tplen);
-    for (int i=0; i<tplen; i++) {
+    int i;
+    for (i=0; i<tplen; i++) {
         SV** elemr = av_fetch(tplist, i, 0);
         if (elemr == NULL)
             continue;
@@ -63,7 +64,8 @@ CROAK:
 AV* krd_expand_topic_partition_list(pTHX_ rd_kafka_topic_partition_list_t* tpar) {
     char errstr[ERRSTR_SIZE];
     AV* tplist = newAV();
-    for (int i = 0; i < tpar->cnt; i++) {
+    int i;
+    for (i = 0; i < tpar->cnt; i++) {
         rd_kafka_topic_partition_t* elem = &(tpar->elems[i]);
         HV* tp = newHV();
         hv_stores(tp, "topic", newSVpv(elem->topic, 0));
