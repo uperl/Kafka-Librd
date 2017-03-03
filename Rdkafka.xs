@@ -163,6 +163,16 @@ krd_commit(rdk, tplistsv = NULL, async = 0)
     OUTPUT:
         RETVAL
 
+int
+krd_commit_message(rdk, msg, async = 0)
+        rdkafka_t* rdk
+        rd_kafka_message_t* msg
+        int async
+    CODE:
+        RETVAL = rd_kafka_commit_message(rdk->rk, msg, async);
+    OUTPUT:
+        RETVAL
+
 rd_kafka_message_t*
 krd_consumer_poll(rdk, timeout_ms)
         rdkafka_t* rdk
