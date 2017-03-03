@@ -1,3 +1,6 @@
+0.08 Fri Mar  3 2017 Pavel Shaydo <zwon@cpan.org>
+    - implement all methods from High-Level consumer API
+
 0.07 Sat Feb  4 2017 Pavel Shaydo <zwon@cpan.org>
     - improved example scripts
     - bumped librdkafka dependency
