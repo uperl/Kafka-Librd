@@ -39,7 +39,7 @@ krd__new(type, params)
         conf = krd_parse_config(aTHX_ RETVAL, params);
         rk = rd_kafka_new(type, conf, errstr, 1024);
         if (rk == NULL) {
-            croak(errstr);
+            croak("%s", errstr);
         }
         RETVAL->rk = rk;
         RETVAL->thx = (IV)PERL_GET_THX;
@@ -85,6 +85,144 @@ krd_unsubscribe(rdk)
         rdkafka_t* rdk
     CODE:
         RETVAL = rd_kafka_unsubscribe(rdk->rk);
+    OUTPUT:
+        RETVAL
+
+SV*
+krd_subscription(rdk)
+        rdkafka_t* rdk
+    PREINIT:
+        rd_kafka_topic_partition_list_t* tpar;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        err = rd_kafka_subscription(rdk->rk, &tpar);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            croak("Error retrieving subscriptions: %s", rd_kafka_err2str(err));
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
+    OUTPUT:
+        RETVAL
+
+int
+krd_assign(rdk, tplistsv = NULL)
+        rdkafka_t* rdk
+        SV* tplistsv
+    PREINIT:
+        AV* tplist;
+        rd_kafka_topic_partition_list_t* tpar = NULL;
+    CODE:
+        if (tplistsv != NULL && SvOK(tplistsv)) {
+            if (!SvROK(tplistsv) || strncmp(sv_reftype(SvRV(tplistsv), 0), "ARRAY", 6)) {
+                croak("first argument must be an array reference");
+            }
+            tplist = (AV*)SvRV(tplistsv);
+            tpar = krd_parse_topic_partition_list(aTHX_ tplist);
+        }
+        RETVAL = rd_kafka_assign(rdk->rk, tpar);
+    OUTPUT:
+        RETVAL
+
+SV*
+krd_assignment(rdk)
+        rdkafka_t *rdk
+    PREINIT:
+        rd_kafka_topic_partition_list_t* tpar;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        err = rd_kafka_assignment(rdk->rk, &tpar);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            croak("Error retrieving assignments: %s", rd_kafka_err2str(err));
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
+    OUTPUT:
+        RETVAL
+
+int
+krd_commit(rdk, tplistsv = NULL, async = 0)
+        rdkafka_t* rdk
+        SV* tplistsv
+        int async
+    PREINIT:
+        AV* tplist;
+        rd_kafka_topic_partition_list_t* tpar = NULL;
+    CODE:
+        if (tplistsv != NULL && SvOK(tplistsv)) {
+            if(!SvROK(tplistsv) || strncmp(sv_reftype(SvRV(tplistsv), 0), "ARRAY", 6)) {
+            croak("first argument must be an array reference");
+            }
+            tplist = (AV*)SvRV(tplistsv);
+            tpar = krd_parse_topic_partition_list(aTHX_ tplist);
+        }
+        RETVAL = rd_kafka_commit(rdk->rk, tpar, async);
+    OUTPUT:
+        RETVAL
+
+int
+krd_commit_message(rdk, msg, async = 0)
+        rdkafka_t* rdk
+        rd_kafka_message_t* msg
+        int async
+    CODE:
+        RETVAL = rd_kafka_commit_message(rdk->rk, msg, async);
+    OUTPUT:
+        RETVAL
+
+SV*
+krd_committed(rdk, tplistsv, timeout_ms)
+        rdkafka_t* rdk
+        SV* tplistsv
+        int timeout_ms
+    PREINIT:
+        AV* tplist;
+        rd_kafka_topic_partition_list_t* tpar = NULL;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        if (!SvROK(tplistsv) || strncmp(sv_reftype(SvRV(tplistsv), 0), "ARRAY", 6)) {
+            croak("first argument must be an array reference");
+        }
+        tplist = (AV*)SvRV(tplistsv);
+        tpar = krd_parse_topic_partition_list(aTHX_ tplist);
+        err = rd_kafka_committed(rdk->rk, tpar, timeout_ms);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            rd_kafka_topic_partition_list_destroy(tpar);
+            croak("Error retrieving commited offsets: %s", rd_kafka_err2str(err));
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
+    OUTPUT:
+        RETVAL
+
+SV*
+krd_position(rdk, tplistsv)
+        rdkafka_t* rdk
+        SV* tplistsv
+    PREINIT:
+        AV* tplist;
+        rd_kafka_topic_partition_list_t* tpar = NULL;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        if (!SvROK(tplistsv) || strncmp(sv_reftype(SvRV(tplistsv), 0), "ARRAY", 6)) {
+            croak("first argument must be an array reference");
+        }
+        tplist = (AV*)SvRV(tplistsv);
+        tpar = krd_parse_topic_partition_list(aTHX_ tplist);
+        err = rd_kafka_position(rdk->rk, tpar);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            rd_kafka_topic_partition_list_destroy(tpar);
+            croak("Error retrieving positions: %s", rd_kafka_err2str(err));
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
     OUTPUT:
         RETVAL
 

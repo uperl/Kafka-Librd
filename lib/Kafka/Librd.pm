@@ -98,6 +98,27 @@ subscribe to the list of topics using balanced consumer groups.
 
 unsubscribe from the current subsctiption set
 
+=head2 subscription
+
+    $tplist = $kafka->subscription
+
+return current subscription. Subscription returned as a reference to array of
+hashes with the following fields: C<topic>, C<partition>, C<offset>, C<metadata>.
+
+=head2 assign
+
+    $err = $kafka->assign(\@tplist)
+
+assign partitions to consume. C<@tplist> is an array of hashes with
+C<topic> and C<partition> fields set.
+
+=head2 assignment
+
+    $tplist = $kafka->assignment
+
+return current assignment. Result returned in the same way as for
+L</subscription>.
+
 =head2 consumer_poll
 
     $msg = $kafka->consumer_poll($timeout_ms)
@@ -106,6 +127,39 @@ poll for messages or events. If any message or event received, returns
 L</Kafka::Librd::Message> object. If C<<$msg->err>> for returned object is zero
 (RD_KAFKA_RESP_ERR_NO_ERROR), then it is a proper message, otherwise it is an
 event or an error.
+
+=head2 commit
+
+    $err = $kafka->commit(\@tplist, $async)
+
+commit offsets to the broker. C<@tplist> is an array of hashes
+with the following keys: C<topic>, C<partition>, C<offset>, C<metadata>. If
+@topic_partition_list is missing or undef, then current partition assignment
+is used instead. If C<$async> is 1, then method returns immediately, if it is
+0 or missing then method blocks until offsets are commited.
+
+=head2 commit_message
+
+    $err = $kafka->commit_message($msg, $async)
+
+commit message's offset for the message's partition. C<$async> same as for
+L</commit>.
+
+=head2 committed
+
+    $tplist = $kafka->committed(\@tplist, $timeout_ms)
+
+retrieve commited offsets for topics and partitions specified in C<@tplist>,
+which is an array of hashes with C<topic> and C<partition> fields. Returned
+C<$tplist> contains a copy of the input list with added C<offset> fields.
+
+=head2 position
+
+    $tplist = $kafka->position(\@tplist)
+
+retrieve current offsets for topics and partitions specified in C<@tplist>,
+which is an array of hashes with C<topic> and C<partition> fields. Returned
+C<$tplist> contains a copy of the input list with added C<offset> fields.
 
 =head2 consumer_close
 
