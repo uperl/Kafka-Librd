@@ -173,6 +173,33 @@ krd_commit_message(rdk, msg, async = 0)
     OUTPUT:
         RETVAL
 
+SV*
+krd_committed(rdk, tplistsv, timeout_ms)
+        rdkafka_t* rdk
+        SV* tplistsv
+        int timeout_ms
+    PREINIT:
+        AV* tplist;
+        rd_kafka_topic_partition_list_t* tpar = NULL;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        if (!SvROK(tplistsv) || strncmp(sv_reftype(SvRV(tplistsv), 0), "ARRAY", 6)) {
+            croak("first argument must be an array reference");
+        }
+        tplist = (AV*)SvRV(tplistsv);
+        tpar = krd_parse_topic_partition_list(aTHX_ tplist);
+        err = rd_kafka_committed(rdk->rk, tpar, timeout_ms);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            rd_kafka_topic_partition_list_destroy(tpar);
+            croak("Error retrieving commited offsets: %s", rd_kafka_err2str(err));
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
+    OUTPUT:
+        RETVAL
+
 rd_kafka_message_t*
 krd_consumer_poll(rdk, timeout_ms)
         rdkafka_t* rdk
