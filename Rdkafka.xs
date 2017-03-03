@@ -107,6 +107,43 @@ krd_subscription(rdk)
         RETVAL
 
 int
+krd_assign(rdk, tplistsv = NULL)
+        rdkafka_t* rdk
+        SV* tplistsv
+    PREINIT:
+        AV* tplist;
+        rd_kafka_topic_partition_list_t* tpar = NULL;
+    CODE:
+        if (tplistsv != NULL && SvOK(tplistsv)) {
+            if (!SvROK(tplistsv) || strncmp(sv_reftype(SvRV(tplistsv), 0), "ARRAY", 6)) {
+                croak("first argument must be an array reference");
+            }
+            tplist = (AV*)SvRV(tplistsv);
+            tpar = krd_parse_topic_partition_list(aTHX_ tplist);
+        }
+        RETVAL = rd_kafka_assign(rdk->rk, tpar);
+    OUTPUT:
+        RETVAL
+
+SV*
+krd_assignment(rdk)
+        rdkafka_t *rdk
+    PREINIT:
+        rd_kafka_topic_partition_list_t* tpar;
+        rd_kafka_resp_err_t err;
+        AV* tp;
+    CODE:
+        err = rd_kafka_assignment(rdk->rk, &tpar);
+        if (err != RD_KAFKA_RESP_ERR_NO_ERROR) {
+            croak("Error retrieving assignments: %s", rd_kafka_err2str(err));
+        }
+        tp = krd_expand_topic_partition_list(aTHX_ tpar);
+        rd_kafka_topic_partition_list_destroy(tpar);
+        RETVAL = newRV_noinc((SV*)tp);
+    OUTPUT:
+        RETVAL
+
+int
 krd_commit(rdk, tplistsv = NULL, async = 0)
         rdkafka_t* rdk
         SV* tplistsv
