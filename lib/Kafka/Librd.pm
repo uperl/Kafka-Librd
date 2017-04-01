@@ -245,8 +245,6 @@ __END__
 
 =head1 CAVEATS
 
-Module is in early stage of development, only basic functionality is implemented.
-
 Message offset is truncated to 32 bit if perl compiled without support for 64 bit integers.
 
 =head1 SEE ALSO
