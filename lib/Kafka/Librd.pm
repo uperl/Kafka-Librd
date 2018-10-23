@@ -1,7 +1,7 @@
 package Kafka::Librd;
 use strict;
 use warnings;
-our $VERSION = "0.08";
+our $VERSION = "0.09";
 my $XS_VERSION = $VERSION;
 $VERSION = eval $VERSION;
 
@@ -17,7 +17,7 @@ Kafka::Librd - bindings for librdkafka
 
 =head1 VERSION
 
-This document describes Kafka::Librd version 0.08
+This document describes Kafka::Librd version 0.09
 
 =head1 SUPPORT
 
