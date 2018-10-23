@@ -19,6 +19,11 @@ Kafka::Librd - bindings for librdkafka
 
 This document describes Kafka::Librd version 0.08
 
+=head1 SUPPORT
+
+Please note that this module is not actively developed and maintained, if you
+are interested in taking it over, please contact the author
+
 =head1 SYNOPSIS
 
     use Kafka::Librd;
