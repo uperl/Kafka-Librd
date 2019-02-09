@@ -1,6 +1,7 @@
 Revision history for Kafka-Librd
 
   - New maintainer Graham Ollis <plicease@cpan.org>
+  - Fix compatability with Perls older than 5.8.9
 
 0.09 Tue Oct 23 2018 Pavel Shaydo <zwon@cpan.org>
   - add note about maintenance status
