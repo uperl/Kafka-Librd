@@ -3,8 +3,7 @@ package Kafka::Librd;
 use strict;
 use warnings;
 
-our $VERSION = "0.09";
-$VERSION = eval $VERSION;
+our $VERSION = '0.10';
 
 require XSLoader;
 XSLoader::load('Kafka::Librd', $VERSION);

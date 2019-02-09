@@ -27,13 +27,13 @@
       },
       "configure" : {
          "requires" : {
+            "Alien::Base::Wrapper" : "0",
             "Alien::Librdkafka" : "v0.9.3",
             "ExtUtils::MakeMaker" : "6.64"
          }
       },
       "runtime" : {
          "requires" : {
-            "Alien::Librdkafka" : "v0.9.3",
             "Exporter::Lite" : "0"
          }
       },
@@ -57,7 +57,7 @@
          "url" : "git://github.com/plicease/perl-Kafka-Librd"
       }
    },
-   "version" : "0.09",
+   "version" : "0.10",
    "x_contributors" : [
       "Pavel Shaydo <zwon@cpan.org>",
       "Graham Ollis <plicease@cpan.org>"
