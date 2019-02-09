@@ -1,10 +1,6 @@
 NAME
     Kafka::Librd - bindings for librdkafka
 
-SUPPORT
-    Please note that this module is not actively developed and maintained,
-    if you are interested in taking it over, please contact the author
-
 SYNOPSIS
         use Kafka::Librd;
 
