@@ -1,12 +1,13 @@
 package Kafka::Librd;
+
 use strict;
 use warnings;
+
 our $VERSION = "0.09";
-my $XS_VERSION = $VERSION;
 $VERSION = eval $VERSION;
 
 require XSLoader;
-XSLoader::load('Kafka::Librd', $XS_VERSION);
+XSLoader::load('Kafka::Librd', $VERSION);
 
 use Exporter::Lite;
 our @EXPORT_OK;
