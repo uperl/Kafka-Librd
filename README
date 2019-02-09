@@ -190,10 +190,12 @@ SEE ALSO
 
 BUGS
     Please report any bugs or feature requests via GitHub bug tracker at
-    <http://github.com/trinitum/perl-Kafka-Librd/issues>.
+    <http://github.com/plicease/Kafka-Librd/issues>.
 
 AUTHOR
-    Pavel Shaydo "<zwon at cpan.org>"
+    Original author Pavel Shaydo "<zwon at cpan.org>"
+
+    Current maintainer Graham Ollis "<plicease@cpan.org>"
 
 LICENSE AND COPYRIGHT
     Copyright (C) 2016, 2017 Pavel Shaydo
