@@ -236,6 +236,11 @@ return message payload
 
 =cut
 
+package Kafka::Librd;
+package Kafka::Librd::Topic;
+package Kafka::Librd::Message;
+package Kafka::Librd::Error;
+
 1;
 
 __END__
