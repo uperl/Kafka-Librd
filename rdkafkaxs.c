@@ -1,4 +1,5 @@
 #include "rdkafkaxs.h"
+#include "ppport.h"
 
 #define ERRSTR_SIZE 1024
 
