@@ -15,10 +15,6 @@ our @EXPORT_OK;
 
 Kafka::Librd - bindings for librdkafka
 
-=head1 VERSION
-
-This document describes Kafka::Librd version 0.09
-
 =head1 SUPPORT
 
 Please note that this module is not actively developed and maintained, if you
@@ -263,7 +259,9 @@ L<http://github.com/trinitum/perl-Kafka-Librd/issues>.
 
 =head1 AUTHOR
 
-Pavel Shaydo C<< <zwon at cpan.org> >>
+Original author Pavel Shaydo C<< <zwon at cpan.org> >>
+
+Current maintainer Graham Ollis C<< <plicease@cpan.org> >>
 
 =head1 LICENSE AND COPYRIGHT
 
