@@ -397,11 +397,17 @@ krdm_offset(msg)
         RETVAL
 
 long
-krdm_timestamp(msg)
+krdm_timestamp(msg,...)
         rd_kafka_message_t* msg
     CODE:
 	rd_kafka_timestamp_type_t tstype;
         RETVAL = rd_kafka_message_timestamp(msg, &tstype);
+	if (items > 1) {
+	    if (!SvROK(ST(1)) || strncmp(sv_reftype(SvRV(ST(1)), 0), "SCALAR", 7)) {
+		croak("second argument tstype must be a scalar reference");
+	    }
+	    sv_setiv(SvRV(ST(1)), tstype);
+	}
     OUTPUT:
 	RETVAL
 
