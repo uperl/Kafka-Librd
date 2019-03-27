@@ -392,6 +392,15 @@ krdm_offset(msg)
     OUTPUT:
         RETVAL
 
+long
+krdm_timestamp(msg)
+        rd_kafka_message_t* msg
+    CODE:
+	rd_kafka_timestamp_type_t tstype;
+        RETVAL = rd_kafka_message_timestamp(msg, &tstype);
+    OUTPUT:
+	RETVAL
+
 void
 krdm_DESTROY(msg)
         rd_kafka_message_t* msg

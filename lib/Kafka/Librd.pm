@@ -233,6 +233,10 @@ return message key
 
 return message payload
 
+=head2 timestamp
+
+return message timestamp (milliseconds since UNIX epoch)
+
 =cut
 
 package Kafka::Librd;
