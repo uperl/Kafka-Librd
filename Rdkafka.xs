@@ -122,7 +122,8 @@ krd_assign(rdk, tplistsv = NULL)
             tpar = krd_parse_topic_partition_list(aTHX_ tplist);
         }
         RETVAL = rd_kafka_assign(rdk->rk, tpar);
-        rd_kafka_topic_partition_list_destroy(tpar);
+        if (tpar != NULL)
+            rd_kafka_topic_partition_list_destroy(tpar);
     OUTPUT:
         RETVAL
 
@@ -161,7 +162,8 @@ krd_commit(rdk, tplistsv = NULL, async = 0)
             tpar = krd_parse_topic_partition_list(aTHX_ tplist);
         }
         RETVAL = rd_kafka_commit(rdk->rk, tpar, async);
-        rd_kafka_topic_partition_list_destroy(tpar);
+        if (tpar != NULL)
+            rd_kafka_topic_partition_list_destroy(tpar);
     OUTPUT:
         RETVAL
 
