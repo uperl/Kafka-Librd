@@ -4,3 +4,27 @@ set -ex
 
 cip sudo apt-get update
 cip sudo apt-get -y install librdkafka-dev
+
+if ( echo $CIP_ENV | grep -q ALIEN_INSTALL_TYPE=system ); then
+
+  echo "system install... pre-install librdkafka-dev"
+  cip sudo apt-get update
+  cip sudo apt-get -y install librdkafka-dev
+
+else
+
+  echo "share install... pre-install C++, Net::SSLeay and IO::Socket::SSL"
+  cip exec cpanm -n Net::SSLeay IO::Socket::SSL
+  cip sudo apt-get update
+  cip sudo apt-get -y install g++
+
+  git clone https://github.com/plicease/Alien-Librdkafka.git
+  cd Alien-Librdkafka
+  git checkout graham/upgrade-to-version-1.1.0
+  perl Build.PL
+  ./Build
+  ./Build test
+  ./Build install
+  cd ..
+
+fi

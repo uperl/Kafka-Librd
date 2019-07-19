@@ -16,21 +16,23 @@ script:
 
 jobs:
   include:
-    - env: CIP_TAG=5.31
-    - env: CIP_TAG=5.30
-    - env: CIP_TAG=5.28
-    - env: CIP_TAG=5.26
-    - env: CIP_TAG=5.24
-    - env: CIP_TAG=5.22
-    - env: CIP_TAG=5.20
-    - env: CIP_TAG=5.18
-    - env: CIP_TAG=5.16
-    - env: CIP_TAG=5.14
-    - env: CIP_TAG=5.12
-    - env: CIP_TAG=5.10
-    - env: CIP_TAG=5.8.9
-    - env: CIP_TAG=5.8.8
-    - env: CIP_TAG=5.8.1
+    - env: CIP_TAG=5.31 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.30 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.30 CIP_ENV=ALIEN_INSTALL_TYPE=share
+    - env: CIP_TAG=5.28 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.26 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.24 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.22 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.20 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.18 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.16 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.14 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.12 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.10 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.8.9 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.8.8 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.8.1 CIP_ENV=ALIEN_INSTALL_TYPE=system
+    - env: CIP_TAG=5.8.1 CIP_ENV=ALIEN_INSTALL_TYPE=share
 
 cache:
   directories:
