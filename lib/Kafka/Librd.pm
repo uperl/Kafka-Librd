@@ -233,9 +233,22 @@ return message key
 
 return message payload
 
-=head2 timestamp
+=head2 timestamp(\$tstype)
 
 return message timestamp (milliseconds since UNIX epoch)
+
+The $tstype argument is optional, and if present, it should be a
+scalar reference. It will be filled with one of the following values:
+
+=over
+
+=item Kafka::Librd::RD_KAFKA_TIMESTAMP_NOT_AVAILABLE
+
+=item Kafka::Librd::RD_KAFKA_TIMESTAMP_CREATE_TIME
+
+=item Kafka::Librd::RD_KAFKA_TIMESTAMP_LOG_APPEND_TIME
+
+=back
 
 =cut
 
