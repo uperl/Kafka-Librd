@@ -21,7 +21,7 @@ use Kafka::Librd qw();
     eval {
 	Kafka::Librd->new(0);
     };
-    like $@, qr{Kafka::Librd::_new: params is not a HASH reference}, 'params argument seems to be mandatory';
+    like $@, qr{Kafka::Librd::_new: params is not a (HASH|hash) reference}, 'params argument seems to be mandatory';
 }
 
 {
