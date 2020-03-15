@@ -1,5 +1,7 @@
 Revision history for Kafka-Librd
 
+  - Added support for Visual C++ + vcpkg (gh#21)
+
 0.14 2019-10-20 19:50:39 -0600
   - Aded flush and destroy methods (gh#19, miket++)
 
