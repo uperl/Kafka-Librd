@@ -23,4 +23,5 @@ xt/manifest.t
 xt/pod-coverage.t
 xt/pod-spell.t
 xt/pod.t
-perl-Kafka-Librd.spec
+perl-Kafka-Librd-rpm-el7.patch
+package/perl-Kafka-Librd.spec

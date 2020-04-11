@@ -3,6 +3,9 @@ use strict;
 use warnings;
 use Config;
 use ExtUtils::MakeMaker 6.64;
+use Alien::Librdkafka 0.9.3;
+use Alien::Base::Wrapper qw( Alien::Librdkafka !export );
+use File::Spec ();
 
 WriteMakefile(
     NAME                => 'Kafka::Librd',
@@ -11,7 +14,6 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Kafka/Librd.pm',
     ABSTRACT_FROM       => 'lib/Kafka/Librd.pm',
     OBJECT              => 'Rdkafka.o rdkafkaxs.o',
-    LIBS                => '-lrdkafka',
     PL_FILES            => {},
     PREREQ_PM => {
         'Exporter::Lite' => 0,
@@ -20,6 +22,8 @@ WriteMakefile(
         'Test::More' => 0.94,
     },
     CONFIGURE_REQUIRES => {
+        'Alien::Base::Wrapper' => '0',
+        'Alien::Librdkafka' => '0.9.3',
         'ExtUtils::MakeMaker' => 6.64,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
@@ -37,9 +41,10 @@ WriteMakefile(
             'Graham Ollis <plicease@cpan.org>',
         ],
     },
+    Alien::Base::Wrapper->mm_args,
 );
 
 sub MY::postamble {
-    "const_xs.inc : utils/generate_const.pl\n" .
-    "\t\$(FULLPERL) utils/generate_const.pl\n";
+    "const_xs.inc : @{[ File::Spec->catfile(qw( utils generate_const.pl )) ]}\n" .
+    "\t\$(FULLPERL) @{[ File::Spec->catfile(qw( utils generate_const.pl )) ]}\n";
 }

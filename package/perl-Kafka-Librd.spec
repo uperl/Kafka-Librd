@@ -6,6 +6,7 @@ License:        GPL+ or Artistic
 Group:          Development/Libraries
 URL:            http://search.cpan.org/dist/Kafka-Librd/
 Source0:        http://www.cpan.org/modules/by-module/Kafka/Kafka-Librd-%{version}.tar.gz
+Patch:          perl-Kafka-Librd-rpm-el7.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  perl(Exporter::Lite)
 BuildRequires:  perl(ExtUtils::MakeMaker)
@@ -20,6 +21,7 @@ This module provides perl bindings for librdkafka.
 
 %prep
 %setup -q -n Kafka-Librd-%{version}
+%patch -p1
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor OPTIMIZE="$RPM_OPT_FLAGS"
