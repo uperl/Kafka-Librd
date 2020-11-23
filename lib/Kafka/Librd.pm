@@ -170,6 +170,9 @@ close down the consumer
 return a L</Kafka::Librd::Topic>topic object, that can be used to produce
 messages
 
+If an error occurs during creation of the topic, C<undef> is returned. In such
+case use L</last_error> to obtain the corresponding error code!
+
 =head2 outq_len
 
     $len = $kafka->outq_len
@@ -202,12 +205,15 @@ provides the following method:
 
 =head2 produce
 
-    $err = $topic->produce($partition, $msgflags, $payload, $key)
+    $status = $topic->produce($partition, $msgflags, $payload, $key)
 
 produce a message for the topic. I<$msgflags> can be RD_KAFKA_MSG_F_BLOCK in
 the future, but currently it should be set to 0, RD_KAFKA_MSG_F_COPY and
 RD_KAFKA_MSG_F_FREE must not be used, internally RD_KAFKA_MSG_F_COPY is always
 set.
+
+The returned status is -1 in case of an error, otherwise 0. The error code can
+be retrieved using the L<Kafka::Librd::Error::last_error|/last_error> function.
 
 =head2 destroy
 
@@ -261,6 +267,30 @@ scalar reference. It will be filled with one of the following values:
 =item Kafka::Librd::RD_KAFKA_TIMESTAMP_LOG_APPEND_TIME
 
 =back
+
+=head1 Kafka::Librd::Error
+
+=head2 to_string
+
+=back
+
+=head1 Kafka::Librd::Error
+
+=head2 to_string
+
+   my $error_message =  Kafka::Librd::Error::to_string($err)
+
+Convert an error code into a human-readable error description. Use this for
+error codes returned by L<Kafka::Librd::Error::last_error|/last_error> and
+L<Kafka::Librd::Message::err|/err>.
+
+=head2 last_error
+
+    my $err = Kafka::Librd::Error::last_error
+
+Retrieve the last error state set by function calls L</topic> and L</produce>.
+This function should be called immediately after those functions, since they
+store error information globally.
 
 =cut
 
