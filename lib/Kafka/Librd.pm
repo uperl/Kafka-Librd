@@ -92,13 +92,13 @@ subscribe to the list of topics using balanced consumer groups.
 
     $err = $kafka->unsubscribe
 
-unsubscribe from the current subsctiption set
+unsubscribe from the current subscription set
 
 =head2 subscription
 
     $tplist = $kafka->subscription
 
-return current subscription. Subscription returned as a reference to array of
+return current subscriptions. Subscription returned as a reference to array of
 hashes with the following fields: C<topic>, C<partition>, C<offset>, C<metadata>.
 
 =head2 assign
@@ -132,7 +132,7 @@ commit offsets to the broker. C<@tplist> is an array of hashes
 with the following keys: C<topic>, C<partition>, C<offset>, C<metadata>. If
 @topic_partition_list is missing or undef, then current partition assignment
 is used instead. If C<$async> is 1, then method returns immediately, if it is
-0 or missing then method blocks until offsets are commited.
+0 or missing then method blocks until offsets are committed.
 
 =head2 commit_message
 
@@ -145,7 +145,7 @@ L</commit>.
 
     $tplist = $kafka->committed(\@tplist, $timeout_ms)
 
-retrieve commited offsets for topics and partitions specified in C<@tplist>,
+retrieve committed offsets for topics and partitions specified in C<@tplist>,
 which is an array of hashes with C<topic> and C<partition> fields. Returned
 C<$tplist> contains a copy of the input list with added C<offset> fields.
 
@@ -167,8 +167,8 @@ close down the consumer
 
     $topic = $kafka->topic($name, \%config)
 
-return a L</Kafka::Librd::Topic>topic object, that can be used to produce
-messages
+Return a L<topic|/Kafka::Librd::Topic> object, that can be used to produce
+messages.
 
 If an error occurs during creation of the topic, C<undef> is returned. In such
 case use L</Kafka::Librd::Error::last_error> to obtain the corresponding error
@@ -261,11 +261,17 @@ scalar reference. It will be filled with one of the following values:
 
 =over
 
-=item Kafka::Librd::RD_KAFKA_TIMESTAMP_NOT_AVAILABLE
+=item
 
-=item Kafka::Librd::RD_KAFKA_TIMESTAMP_CREATE_TIME
+C<Kafka::Librd::RD_KAFKA_TIMESTAMP_NOT_AVAILABLE>
 
-=item Kafka::Librd::RD_KAFKA_TIMESTAMP_LOG_APPEND_TIME
+=item
+
+C<Kafka::Librd::RD_KAFKA_TIMESTAMP_CREATE_TIME>
+
+=item
+
+C<Kafka::Librd::RD_KAFKA_TIMESTAMP_LOG_APPEND_TIME>
 
 =back
 
@@ -300,7 +306,8 @@ __END__
 
 =head1 CAVEATS
 
-Message offset is truncated to 32 bit if perl compiled without support for 64 bit integers.
+Message offset is truncated to 32 bit if perl compiled without support for
+64 bit integers.
 
 =head1 SEE ALSO
 
