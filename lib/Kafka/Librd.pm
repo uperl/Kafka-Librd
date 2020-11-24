@@ -171,7 +171,8 @@ return a L</Kafka::Librd::Topic>topic object, that can be used to produce
 messages
 
 If an error occurs during creation of the topic, C<undef> is returned. In such
-case use L</last_error> to obtain the corresponding error code!
+case use L</Kafka::Librd::Error::last_error> to obtain the corresponding error
+code!
 
 =head2 outq_len
 
@@ -213,7 +214,7 @@ RD_KAFKA_MSG_F_FREE must not be used, internally RD_KAFKA_MSG_F_COPY is always
 set.
 
 The returned status is -1 in case of an error, otherwise 0. The error code can
-be retrieved using the L<Kafka::Librd::Error::last_error|/last_error> function.
+be retrieved using the L</Kafka::Librd::Error::last_error> function.
 
 =head2 destroy
 
@@ -270,15 +271,15 @@ scalar reference. It will be filled with one of the following values:
 
 =head1 Kafka::Librd::Error
 
-=head2 to_string
+=head2 Kafka::Librd::Error::to_string
 
    my $error_message =  Kafka::Librd::Error::to_string($err)
 
 Convert an error code into a human-readable error description. Use this for
-error codes returned by L<Kafka::Librd::Error::last_error|/last_error> and
+error codes returned by L</Kafka::Librd::Error::last_error> and
 L<Kafka::Librd::Message::err|/err>.
 
-=head2 last_error
+=head2 Kafka::Librd::Error::last_error
 
     my $err = Kafka::Librd::Error::last_error
 
