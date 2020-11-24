@@ -272,12 +272,6 @@ scalar reference. It will be filled with one of the following values:
 
 =head2 to_string
 
-=back
-
-=head1 Kafka::Librd::Error
-
-=head2 to_string
-
    my $error_message =  Kafka::Librd::Error::to_string($err)
 
 Convert an error code into a human-readable error description. Use this for
