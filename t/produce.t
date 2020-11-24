@@ -35,7 +35,7 @@ use Kafka::Librd qw();
     is $value, -1, "to large message produce returns error";
     is $err, Kafka::Librd::RD_KAFKA_RESP_ERR_MSG_SIZE_TOO_LARGE, "last error returns too large error";
 
-    # same size constrains apply to topic creation call
+    # same size constraints apply to topic creation call
     $topic = $kafka->topic($large_message, {});
     $err = Kafka::Librd::Error::last_error();
     is $topic, undef;
