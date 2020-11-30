@@ -17,7 +17,6 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Exporter::Lite'       => '0',
-        'XSLoader'             => '0.22',
     },
     TEST_REQUIRES => {
         'Test::More'           => '0.94',
