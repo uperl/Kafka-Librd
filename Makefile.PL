@@ -16,15 +16,16 @@ WriteMakefile(
     OBJECT              => 'Rdkafka.o rdkafkaxs.o',
     PL_FILES            => {},
     PREREQ_PM => {
-        'Exporter::Lite' => 0,
+        'Exporter::Lite'       => '0',
+        'XSLoader'             => '0.22',
     },
     TEST_REQUIRES => {
-        'Test::More' => 0.94,
+        'Test::More'           => '0.94',
     },
     CONFIGURE_REQUIRES => {
         'Alien::Base::Wrapper' => '0',
-        'Alien::Librdkafka' => '0.9.3',
-        'ExtUtils::MakeMaker' => 6.64,
+        'Alien::Librdkafka'    => '0.9.3',
+        'ExtUtils::MakeMaker'  => '6.64',
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Kafka-Librd-* const_xs.inc' },
@@ -32,8 +33,8 @@ WriteMakefile(
     META_MERGE => {
         resources => {
             homepage   => 'https://github.com/plicease/Kafka-Librd',
-            bugtracker => 'https://github.com/plicease/perl-Kafka-Librd/issues',
-            repository => 'git://github.com/plicease/perl-Kafka-Librd',
+            bugtracker => 'https://github.com/plicease/Kafka-Librd/issues',
+            repository => 'git://github.com/plicease/Kafka-Librd',
             license    => 'http://dev.perl.org/licenses/',
         },
         x_contributors => [
