@@ -1,5 +1,8 @@
 Revision history for Kafka-Librd
 
+0.18_01 2020-11-30 05:33:03 -0700
+  - Fixed bug calling XSLoader (gh#37)
+
 0.17_01 2020-11-27 16:21:52 -0700
   - Added Kafka::Librd::Error::last_error (gh#33, gh#34 harmathy++)
 
