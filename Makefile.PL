@@ -32,8 +32,8 @@ WriteMakefile(
     META_MERGE => {
         resources => {
             homepage   => 'https://github.com/plicease/Kafka-Librd',
-            bugtracker => 'https://github.com/plicease/perl-Kafka-Librd/issues',
-            repository => 'git://github.com/plicease/perl-Kafka-Librd',
+            bugtracker => 'https://github.com/plicease/Kafka-Librd/issues',
+            repository => 'git://github.com/plicease/Kafka-Librd',
             license    => 'http://dev.perl.org/licenses/',
         },
         x_contributors => [
