@@ -294,7 +294,6 @@ store error information globally.
 
 =cut
 
-package Kafka::Librd;
 package Kafka::Librd::Topic;
 package Kafka::Librd::Message;
 package Kafka::Librd::Error;
