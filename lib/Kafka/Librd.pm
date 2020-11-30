@@ -2,14 +2,13 @@ package Kafka::Librd;
 
 use strict;
 use warnings;
+use XSLoader;
+use Exporter::Lite;
 
 our $VERSION = '0.17_01';
+XSLoader::load('Kafka::Librd', $VERSION);
 $VERSION =~ tr/_//d;
 
-require XSLoader;
-XSLoader::load('Kafka::Librd', $VERSION);
-
-use Exporter::Lite;
 our @EXPORT_OK;
 
 =head1 NAME
