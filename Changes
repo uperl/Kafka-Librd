@@ -1,5 +1,8 @@
 Revision history for Kafka-Librd
 
+0.19 2020-12-02 05:46:51 -0700
+  - Production release identical to 0.18_01.
+
 0.18_01 2020-11-30 05:33:03 -0700
   - Fixed bug calling XSLoader (gh#37)
 

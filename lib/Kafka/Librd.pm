@@ -5,9 +5,8 @@ use warnings;
 use XSLoader;
 use Exporter::Lite;
 
-our $VERSION = '0.18_01';
+our $VERSION = '0.19';
 XSLoader::load('Kafka::Librd', $VERSION);
-$VERSION =~ tr/_//d;
 
 our @EXPORT_OK;
 
