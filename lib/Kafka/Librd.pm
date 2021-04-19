@@ -315,7 +315,7 @@ L<https://github.com/edenhill/librdkafka>
 =head1 BUGS
 
 Please report any bugs or feature requests via GitHub bug tracker at
-L<http://github.com/plicease/Kafka-Librd/issues>.
+L<http://github.com/uperl/Kafka-Librd/issues>.
 
 =head1 AUTHOR
 
