@@ -31,9 +31,9 @@ WriteMakefile(
     depend              => { 'Rdkafka.c' => 'const_xs.inc' },
     META_MERGE => {
         resources => {
-            homepage   => 'https://github.com/plicease/Kafka-Librd',
-            bugtracker => 'https://github.com/plicease/Kafka-Librd/issues',
-            repository => 'git://github.com/plicease/Kafka-Librd',
+            homepage   => 'https://github.com/uperl/Kafka-Librd',
+            bugtracker => 'https://github.com/uperl/Kafka-Librd/issues',
+            repository => 'git://github.com/uperl/Kafka-Librd',
             license    => 'http://dev.perl.org/licenses/',
         },
         x_contributors => [
