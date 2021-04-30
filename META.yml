@@ -24,10 +24,9 @@ requires:
   Exporter::Lite: '0'
 resources:
   bugtracker: https://github.com/uperl/Kafka-Librd/issues
-  homepage: https://github.com/uperl/Kafka-Librd
-  license: http://dev.perl.org/licenses/
-  repository: git://github.com/uperl/Kafka-Librd
-version: '0.19'
+  homepage: https://metacpan.org/pod/Kafka::Librd
+  repository: https://github.com/uperl/Kafka-Librd.git
+version: '0.20'
 x_contributors:
   - 'Pavel Shaydo <zwon@cpan.org>'
   - 'Graham Ollis <plicease@cpan.org>'

@@ -36,7 +36,7 @@ WriteMakefile(
             bugtracker => {
                 web  => 'https://github.com/uperl/Kafka-Librd/issues',
             },
-            homepage => 'https://metacpan.org/pod/PkgConfig',
+            homepage => 'https://metacpan.org/pod/Kafka::Librd',
             repository => {
                 type => 'git',
                 url  => 'https://github.com/uperl/Kafka-Librd.git',

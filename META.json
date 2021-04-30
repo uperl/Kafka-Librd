@@ -48,16 +48,14 @@
       "bugtracker" : {
          "web" : "https://github.com/uperl/Kafka-Librd/issues"
       },
-      "homepage" : "https://github.com/uperl/Kafka-Librd",
-      "license" : [
-         "http://dev.perl.org/licenses/"
-      ],
+      "homepage" : "https://metacpan.org/pod/Kafka::Librd",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/uperl/Kafka-Librd"
+         "url" : "https://github.com/uperl/Kafka-Librd.git",
+         "web" : "https://github.com/uperl/Kafka-Librd"
       }
    },
-   "version" : "0.19",
+   "version" : "0.20",
    "x_contributors" : [
       "Pavel Shaydo <zwon@cpan.org>",
       "Graham Ollis <plicease@cpan.org>"
