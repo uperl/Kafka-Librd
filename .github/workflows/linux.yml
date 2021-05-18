@@ -17,6 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         cip_tag:
+          - "5.32-threads"
           - "5.33"
           - "5.32"
           - "5.30"
