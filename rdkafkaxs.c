@@ -79,6 +79,23 @@ AV* krd_expand_topic_partition_list(pTHX_ rd_kafka_topic_partition_list_t* tpar)
     return tplist;
 }
 
+void krd_call_log_cb(const rd_kafka_t *rk, int level, const char *fac, const char *buf) {
+    dTHX;
+    dSP;
+    ENTER;
+    SAVETMPS;
+    PUSHMARK(SP);
+    EXTEND(SP, 3);
+    PUSHs(sv_2mortal(newSViv(level)));
+    PUSHs(sv_2mortal(newSVpv(fac, 0)));
+    PUSHs(sv_2mortal(newSVpv(buf, 0)));
+    PUTBACK;
+    call_pv("Kafka::Librd::_log_cb_entry_point", G_VOID);
+    FREETMPS;
+    LEAVE;
+
+}
+
 rd_kafka_conf_t* krd_parse_config(pTHX_ rdkafka_t *krd, HV* params) {
     char errstr[ERRSTR_SIZE];
     rd_kafka_conf_t* krdconf;
@@ -100,6 +117,12 @@ rd_kafka_conf_t* krd_parse_config(pTHX_ rdkafka_t *krd, HV* params) {
             rd_kafka_topic_conf_t* topconf = krd_parse_topic_config(aTHX_ (HV*)SvRV(val), errstr);
             if (topconf == NULL) goto CROAK;
             rd_kafka_conf_set_default_topic_conf(krdconf, topconf);
+        } else if (strncmp(key, "log_cb", len) == 0) {
+            if (!SvROK(val) || strncmp(sv_reftype(SvRV(val), 0), "CODE", 5) != 0) {
+                strncpy(errstr, "log_cb must be a code reference", ERRSTR_SIZE);
+                goto CROAK;
+            }
+            rd_kafka_conf_set_log_cb(krdconf, krd_call_log_cb);
         } else {
             /* set named configuration property */
             char *strval = SvPV(val, len);
