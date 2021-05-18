@@ -10,6 +10,8 @@ XSLoader::load('Kafka::Librd', $VERSION);
 
 our @EXPORT_OK;
 
+our $log_cb;
+
 =head1 NAME
 
 Kafka::Librd - bindings for librdkafka
@@ -61,8 +63,11 @@ default topic configuration properties.
 =cut
 
 sub new {
-    my ( $class, $type, $params ) = @_;
-    return _new( $type, $params );
+    my ($class, $type, $params) = @_;
+    if(defined $params && exists($params->{log_cb})){
+        $log_cb = $params->{log_cb};
+    }
+    return _new($type, $params);
 }
 
 {
@@ -72,6 +77,12 @@ sub new {
         *{__PACKAGE__ . "::RD_KAFKA_RESP_ERR_$_"} = eval "sub { $errors->{$_} }";
         push @EXPORT_OK, "RD_KAFKA_RESP_ERR_$_";
     }
+}
+
+
+sub _log_cb_entry_point {
+    my ($level, $facility, $message) = @_;
+    $log_cb->($level, $facility, $message);
 }
 
 =head2 brokers_add
@@ -294,7 +305,6 @@ store error information globally.
 
 =cut
 
-package Kafka::Librd;
 package Kafka::Librd::Topic;
 package Kafka::Librd::Message;
 package Kafka::Librd::Error;

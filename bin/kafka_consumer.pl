@@ -68,9 +68,15 @@ $brokers  //= "localhost:9092";
 my $sproto = $cacert ? "ssl" : "plaintext";
 $sproto = "sasl_$sproto" if $sasluser;
 
+my $logger = sub {
+    my ($level, $facility, $message) = @_;
+    printf(STDERR "[%s] (Lv %s): %s\n", $facility, $level, $message);
+};
+
 my $kafka = Kafka::Librd->new(
     Kafka::Librd::RD_KAFKA_CONSUMER,
     {
+        'log_cb' => $logger,
         'group.id' => $group_id,
         (
             $cacert
