@@ -30,7 +30,7 @@ Kafka::Librd - bindings for librdkafka
         my $msg = $kafka->consumer_poll(1000);
         if ($msg) {
             if ( $msg->err ) {
-                say "Error: ", Kafka::Librd::Error::to_string($err);
+                say "Error: ", Kafka::Librd::Error::to_string($msg->err);
             }
             else {
                 say $msg->payload;
