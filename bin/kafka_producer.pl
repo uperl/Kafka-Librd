@@ -8,13 +8,14 @@ use Getopt::Long;
 use Pod::Usage;
 
 my $gor = GetOptions(
-    "topic=s"    => \my $topic,
-    "brokers=s"  => \my $brokers,
-    "ca-cert=s"  => \my $cacert,
-    "username=s" => \my $sasluser,
-    "password=s" => \my $saslpass,
-    "debug"      => \my $debug,
-    "help"       => \my $help,
+    "topic=s"           => \my $topic,
+    "brokers=s"         => \my $brokers,
+    "brokers-command=s" => \my $brokers_command,
+    "ca-cert=s"         => \my $cacert,
+    "username=s"        => \my $sasluser,
+    "password=s"        => \my $saslpass,
+    "debug"             => \my $debug,
+    "help"              => \my $help,
 );
 
 pod2usage(-verbose => 2, -noperldoc => 1) if $help or not $gor;
@@ -41,6 +42,10 @@ topic into which produce messages
 
 comma separated list of brokers. For example: C<broker1.mydomain:9092,broker2.mydomain:9092>.
 
+=item B<brokers-command>
+
+a command, which can provide a broker list
+
 =item B<ca-cert>
 
 path to CA certificate. If not specified then plaintext protocol is used to connect to broker.
@@ -58,6 +63,10 @@ print additional debugging information
 =back
 
 =cut
+
+if ( !defined($brokers) && defined($brokers_command) ) {
+    $brokers = `$brokers_command`;
+}
 
 $brokers //= "localhost:9092";
 
