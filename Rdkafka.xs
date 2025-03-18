@@ -424,6 +424,34 @@ krdm_timestamp(msg,...)
     OUTPUT:
 	RETVAL
 
+HV*
+krdm_headers(msg)
+        rd_kafka_message_t* msg
+    PREINIT:
+        rd_kafka_resp_err_t err;
+        rd_kafka_headers_t *hdrs;
+        size_t len, i;
+        const char *name;
+        const void *value;
+    CODE:
+        RETVAL = newHV();
+        sv_2mortal((SV*)RETVAL);
+
+        err = rd_kafka_message_headers(msg, &hdrs);
+        if (err == RD_KAFKA_RESP_ERR_NO_ERROR) {
+            for (i = 0;; ++i) {
+                err = rd_kafka_header_get_all(hdrs, i, &name, &value, &len);
+                if (err == RD_KAFKA_RESP_ERR__NOENT)
+                    break;
+                hv_store(RETVAL, name, strlen(name), newSVpvn(value, len), 0);
+            }
+        }
+        else if (err != RD_KAFKA_RESP_ERR__NOENT) {
+            croak("Error parsing headers: %s", rd_kafka_err2str(err));
+        }
+    OUTPUT:
+        RETVAL
+
 void
 krdm_DESTROY(msg)
         rd_kafka_message_t* msg
