@@ -274,6 +274,10 @@ C<Kafka::Librd::RD_KAFKA_TIMESTAMP_LOG_APPEND_TIME>
 
 =back
 
+=head2 headers
+
+return message headers as a hash reference with name-value pairs
+
 =head1 Kafka::Librd::Error
 
 =head2 Kafka::Librd::Error::to_string
