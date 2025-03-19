@@ -67,9 +67,8 @@ sub new {
 
 {
     my $errors = Kafka::Librd::Error::rd_kafka_get_err_descs();
-    no strict 'refs';
     for ( keys %$errors ) {
-        *{__PACKAGE__ . "::RD_KAFKA_RESP_ERR_$_"} = eval "sub { $errors->{$_} }";
+        eval "sub RD_KAFKA_RESP_ERR_$_ () { $errors->{$_} }";
         push @EXPORT_OK, "RD_KAFKA_RESP_ERR_$_";
     }
 }
