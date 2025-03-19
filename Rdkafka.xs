@@ -433,6 +433,7 @@ krdm_headers(msg)
         size_t len, i;
         const char *name;
         const void *value;
+        void *ret;
     CODE:
         RETVAL = newHV();
         sv_2mortal((SV*)RETVAL);
@@ -443,7 +444,9 @@ krdm_headers(msg)
                 err = rd_kafka_header_get_all(hdrs, i, &name, &value, &len);
                 if (err == RD_KAFKA_RESP_ERR__NOENT)
                     break;
-                hv_store(RETVAL, name, strlen(name), newSVpvn(value, len), 0);
+                ret = hv_store(RETVAL, name, strlen(name), newSVpvn(value, len), 0);
+                if (ret == NULL)
+                    croak("hv_store failed");
             }
         }
         else if (err != RD_KAFKA_RESP_ERR__NOENT) {
