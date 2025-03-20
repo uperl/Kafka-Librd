@@ -34,7 +34,8 @@
       },
       "runtime" : {
          "requires" : {
-            "Exporter::Lite" : "0"
+            "Exporter::Lite" : "0",
+            "Sub::Install" : "0"
          }
       },
       "test" : {

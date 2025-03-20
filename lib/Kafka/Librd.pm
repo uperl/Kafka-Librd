@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use XSLoader;
 use Exporter::Lite;
+use Sub::Install;
 
 our $VERSION = '0.20';
 XSLoader::load('Kafka::Librd', $VERSION);
@@ -67,10 +68,10 @@ sub new {
 
 {
     my $errors = Kafka::Librd::Error::rd_kafka_get_err_descs();
-    no strict 'refs';
-    for ( keys %$errors ) {
-        *{__PACKAGE__ . "::RD_KAFKA_RESP_ERR_$_"} = eval "sub { $errors->{$_} }";
-        push @EXPORT_OK, "RD_KAFKA_RESP_ERR_$_";
+    while ( my ( $key, $value ) = each %$errors ) {
+        my $name = 'RD_KAFKA_RESP_ERR_' . $key;
+        Sub::Install::install_sub( { code => sub () {$value}, as => $name } );
+        push @EXPORT_OK, $name;
     }
 }
 

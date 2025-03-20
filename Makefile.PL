@@ -17,6 +17,7 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Exporter::Lite'       => '0',
+        'Sub::Install'         => '0',
     },
     TEST_REQUIRES => {
         'Test::More'           => '0.94',
